@@ -5,9 +5,9 @@ import tensorflow as tf
 #matrix
 #remove b
 x_data = [[1., 1., 1., 1., 1.,],
-          [0., 2., 0., 4., 0.],
-          [1., 0., 3., 0., 5.]]
-y_data = [1, 2, 3, 4, 5]
+          [0., 200., 0., 400., 0.],
+          [100., 0., 300., 0., 500.]]
+y_data = [100, 200, 300, 400, 500]
 
 
 
@@ -24,7 +24,7 @@ W = tf.Variable(tf.random_uniform([1,3], -5.0, 5.0))
 hypothesis = tf.matmul(W, x_data)
 
 #cost function
-cost = tf.reduce_mean(tf.square(hypothesis - y_data))
+cost = tf.reduce_mean(tf.square((hypothesis - y_data)/y_data))
 
 
 a = tf.Variable(0.1)
