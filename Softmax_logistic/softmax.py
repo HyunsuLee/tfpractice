@@ -11,9 +11,9 @@ Y = tf.placeholder("float", [None, 3])
 
 W = tf.Variable(tf.zeros([3,3]))
 
-hypothesis = tf.nn.softmax(tf.matmul(W, X))
+hypothesis = tf.nn.softmax(tf.matmul(X, W))
 
-learning_rate = 0.001
+learning_rate = tf.Variable(0.001)
 
 cost = tf.reduce_mean(-tf.reduce_sum(Y*tf.log(hypothesis), reduction_indices=1))
 
@@ -28,3 +28,7 @@ with tf.Session() as sess:
         sess.run(optimizer, feed_dict={X:x_data, Y:y_data})
         if step % 50 == 0:
             print step, sess.run(cost, feed_dict={X:x_data, Y:y_data}), sess.run(W)
+
+    a = sess.run(hypothesis, feed_dict = {X:[[1, 11, 7], [1, 3, 4], [1, 1, 0]]})
+    print a, sess.run(tf.arg_max(a, 1))
+
