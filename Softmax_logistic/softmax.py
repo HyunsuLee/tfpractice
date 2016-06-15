@@ -28,7 +28,7 @@ with tf.Session() as sess:
         sess.run(optimizer, feed_dict={X:x_data, Y:y_data})
         if step % 50 == 0:
             print step, sess.run(cost, feed_dict={X:x_data, Y:y_data}), sess.run(W)
-
+## important with function need indent, or object sess run.
     a = sess.run(hypothesis, feed_dict = {X:[[1, 11, 7], [1, 3, 4], [1, 1, 0]]})
     print a, sess.run(tf.arg_max(a, 1))
 
