@@ -13,7 +13,7 @@ W = tf.Variable(tf.zeros([3,3]))
 
 hypothesis = tf.nn.softmax(tf.matmul(X, W))
 
-learning_rate = tf.Variable(0.001)
+learning_rate = tf.Variable(0.1)
 
 cost = tf.reduce_mean(-tf.reduce_sum(Y*tf.log(hypothesis), reduction_indices=1))
 
