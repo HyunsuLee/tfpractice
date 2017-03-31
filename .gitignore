@@ -1,0 +1,10 @@
+#pycharm stuff
+.idea/
+
+# data
+MNIST/
+
+#log
+
+*/log/
+

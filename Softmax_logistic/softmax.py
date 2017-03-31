@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-
+import tensorflow as tf
 xy = np.loadtxt('train.txt', unpack=True, dtype='float32')
 x_data = np.transpose(xy[0:3])
 y_data = np.transpose(xy[3:])
@@ -31,4 +31,3 @@ with tf.Session() as sess:
 ## important with function need indent, or object sess run.
     a = sess.run(hypothesis, feed_dict = {X:[[1, 11, 7], [1, 3, 4], [1, 1, 0]]})
     print a, sess.run(tf.arg_max(a, 1))
-

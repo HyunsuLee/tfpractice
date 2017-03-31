@@ -14,13 +14,18 @@ import datetime
 log_device_placement = True
 
 #num of multiplications to perform
-n = 100
+n = 40
 
 '''
-Example: compute A^n + B^n on 2 GPUs
-Results on 8 cores with 2 GTX-980:
- * Single GPU computation time: 0:00:11.277449
- * Multi GPU computation time: 0:00:07.131701
+Example: compute A^4 + B^4 on 2 GPUs
+Results on 8 cores with GTX-1080 and GTX-960:
+ * Single GPU computation time: 0:56:24.982570
+ * Multi GPU computation time:  0:54:28.246102
+
+Example: compute A^3 + B^3 on 1 GPUs
+Results on 8 cores with GTX-1080 and GTX-960:
+ * GTX1080 GPU computation time: 0:00:03.4~5
+ * GTX960 GPU computation time:  0:00:03.4~5
 '''
 #Create random large matrix
 A = np.random.rand(1e3, 1e3).astype('float32')
@@ -39,14 +44,14 @@ def matpow(M, n):
 '''
 Single GPU computing
 '''
-with tf.device('/gpu:0'):
+with tf.device('/gpu:1'):
     a = tf.constant(A)
     b = tf.constant(B)
     #compute A^n and B^n and store results in c1
     c1.append(matpow(a, n))
     c1.append(matpow(b, n))
 
-with tf.device('/cpu:0'):
+with tf.device('/gpu:1'):
     sum = tf.add_n(c1) #Addition of all elements in c1, i.e. A^n + B^n
 
 t1_1 = datetime.datetime.now()
@@ -71,7 +76,7 @@ with tf.device('/cpu:0'):
     b = tf.constant(B)
     c2.append(matpow(b, n))
 
-with tf.device('/gpu:0'):
+with tf.device('/cpu:0'):
   sum = tf.add_n(c2) #Addition of all elements in c2, i.e. A^n + B^n
 
 t1_2 = datetime.datetime.now()
@@ -81,5 +86,5 @@ with tf.Session(config=tf.ConfigProto(log_device_placement=log_device_placement)
 t2_2 = datetime.datetime.now()
 
 
-print "Single GPU computation time: " + str(t2_1-t1_1)
-print "Multi cPU computation time: " + str(t2_2-t1_2)
+print ("Single GPU computation time: " + str(t2_1-t1_1))
+print ("Multi GPU computation time: " + str(t2_2-t1_2))
